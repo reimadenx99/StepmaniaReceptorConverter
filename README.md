@@ -1,15 +1,15 @@
-# OsuAutoReceptor
+# stepmania to osu!mania receptor converter
 
 **Disclaimer: This is a reupload because the original creator deleted their repo**
 
-Convert [Stepmania](https://www.stepmania.com)/[Etterna](https://etternaonline.com) Receptors to osu!mania keys.
+Like the title says it converts [Stepmania](https://www.stepmania.com)/[Etterna](https://etternaonline.com) receptors to osu!mania keys.
 
 Make sure that there aren't multiple receptors in one image or you'll have two or more for one note:
 
-![Double Receptors No](https://i.imgur.com/Gx3SMG9.png) ![Single Receptor Yes](https://i.imgur.com/1PqSW6u.png)
+![Double receptors no](https://i.imgur.com/Gx3SMG9.png) ![Single receptor yes](https://i.imgur.com/1PqSW6u.png)
 
-What you can absolutely do however is convert multiple Receptors (single) at once though:
+What you can absolutely do however, is convert multiple receptors (single) at once though:
 
-![Multiple Recepors](https://i.imgur.com/AMuV0Pw.png)
+![Multiple recepors](https://i.imgur.com/AMuV0Pw.png)
 
-[Converter Site](https://salami0133.github.io/OsuAutoReceptor)
+[Site](https://reimadenx99.github.io/StepmaniaReceptorConverter)
