@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<title>osu Receptor</title>
+<title>Stepmania Receptor Convert</title>
 
     <link rel="stylesheet" href="styles.css">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Josefin+Sans&display=swap" rel="stylesheet">
     <script src="jszip.min.js"></script>
     <script src="stat_FileSaver.min.js"></script>
-    
+
     <script type="text/javascript">
 
         function previewFiles() {
@@ -15,7 +20,6 @@
 
             function readAndPreview(file) {
 
-                // Make sure `file.name` matches our extensions criteria
                 if ( /\.(jpe?g|png)$/i.test(file.name) ) {
                     var reader = new FileReader();
 
@@ -26,8 +30,8 @@
                         image.src = this.result;
                         preview.appendChild( image );
 
-                        var KeyAutoHeight = image.height / (image.width / document.getElementById("ColumnSize").value);
-                        document.getElementById("MaxBottom2").innerHTML = "Useful if using KeyStyle, also this bypass the HitPosition value, therefore if you use receptor the HitPosition is 480, and for Key it is " + (480 - Math.round(KeyAutoHeight));
+                        var keyAutoHeight = image.height / (image.width / document.getElementById("ColumnSize").value);
+                        document.getElementById("maxBottom2").innerHTML = "This bypasses the HitPosition value to " + (480 - Math.round(keyAutoHeight));
 
                         image.height = 100;
                     }, false);
@@ -50,75 +54,47 @@
             var images = [];
             var counter = 0;
 
-            ReceptorImage = document.getElementById("Receptor");
-            Columnsize = document.getElementById("ColumnSize").value;
-            Hitposition = document.getElementById("HitPosition").value;
+            receptorImage = document.getElementById("Receptor");
+            columnSize = document.getElementById("ColumnSize").value;
+            hitPosition = document.getElementById("HitPosition").value;
 
-            var ImagePosition = (Hitposition * 1.6) - (Columnsize * 1.6);
-            var ImageSizeHeight = Columnsize * 1.6;
+            var ImagePosition = (hitPosition * 1.6) - (columnSize * 1.6);
+            var imageSizeHeight = columnSize * 1.6;
 
             function readAndDraw(file) {
                 if ( /\.(jpe?g|png)$/i.test(file.name) ) {
                     var reader = new FileReader();
 
                     reader.addEventListener("load", function () {
-                        var image = new Image();
-                        image.title = file.name;
-                        image.src = this.result;
-
-                        var canvas = document.createElement("canvas");
-                        canvas.width = image.width;
+                        var image = new Image(); 
+                        image.title = file.name; 
+                        image.src = this.result; 
+                        var canvas = document.createElement("canvas"); 
+                        canvas.width = image.width; 
                         canvas.height = 768;
 
-                        if (document.getElementById("KeyStyle").checked) {
-                            ImagePosition = (Hitposition * 1.6);
-                            var KeyAutoHeight = image.height / (image.width / Columnsize);
-                            ImageSizeHeight = KeyAutoHeight * 1.6;
-                        }
+                        if (document.getElementById("keyStyle").checked) {
+                            ImagePosition = (hitPosition * 1.6); 
+                            var keyAutoHeight = image.height / (image.width / columnSize); 
+                            imageSizeHeight = keyAutoHeight * 1.6}
 
-                        if (document.getElementById("MaxBottom").checked) {
-                            ImagePosition = 768 - ImageSizeHeight;
-                        }
+                        if (document.getElementById("maxBottom").checked) {
+                            ImagePosition = 768 - imageSizeHeight}
 
-
-                        var ctx = canvas.getContext("2d");
-                        ctx.drawImage(
-                            image,
-                            0, 0, // beginning of the image we grab
-                            image.width, image.height, // end of the image we grab
-                            0, ImagePosition, // Move the position of the image
-                            image.width, ImageSizeHeight // set the size of the image
-                        );
-
-                        // Preview the result
-                        // var Result = new Image();
-                        // Result.src = canvas.toDataURL();
-                        // Result.height = 240;
-                        // body.appendChild(Result);
+                        var ctx = canvas.getContext("2d"); ctx.drawImage(image, 0, 0, image.width, image.height, 0, ImagePosition, image.width, imageSizeHeight);
 
                         convertImgToBase64URL(canvas.toDataURL(), function (base64Img, url) {
-                            images.push({
-                            url: url,
-                            data: base64Img,
-                            name: file.name
-                            });
-                            counter++;
-
-                            if (counter == files.length) {
-                                createArchive(images);
-                            }
-                        });
+                            images.push({url: url, data: base64Img, name: file.name}); 
+                            counter++; 
+                            if (counter == files.length) {createArchive(images);}});
 
                     }, false);
-
                     reader.readAsDataURL(file);
                 }
 
             }
 
-            if (files) {
-                [].forEach.call(files, readAndDraw);
-            }
+            if (files) {[].forEach.call(files, readAndDraw);}
         }
 
         function convertImgToBase64URL(url, callback){
@@ -173,16 +149,16 @@
             <input type="number" id="HitPosition" name="HitPosition" min="0" max="480">
         </div>
 
-        <div id="Keystyle">
-            <label for="KeyStyle">KeyStyle ? (note stop on top of receptor)</label>
-            <input type="checkbox" id="KeyStyle" name="KeyStyle">
+        <div id="keyStyle">
+            <input type="checkbox" id="keyStyle" name="keyStyle">
+            <label for="keyStyle">Key style (Notes stop on top of receptor)</label>
         </div>
 
-        <div id="Maxbottom">
-            <label for="MaxBottom">Want the receptor to automatically be at the max bottom ? (or top if upscroll)</label>
-            <input type="checkbox" id="MaxBottom" name="MaxBottom">
+        <div id="maxBottom">
+            <input type="checkbox" id="maxBottom" name="maxBottom">
+            <label for="maxBottom">Max bottom (moves receptors to the very bottom/top if upscroll)</label>
             <br>
-            <label for="MaxBottom2" id="MaxBottom2" style="font-size: 12px">Useful if using KeyStyle, also this bypass the HitPosition value, therefore if you use receptor the HitPosition is 480, and for Key it is MATH (select image first)</label>
+            <label for="maxBottom2" id="maxBottom2" style="font-size: 12px">This bypasses the HitPosition value to MATH.</label>
         </div>
         
         <button type="button" onclick="ConvertReceptor()">Generate Archives</button>
